@@ -8,67 +8,91 @@ function compChoice(){
     return choice[Math.floor(Math.random()*3)];
 }
 
-function playerChoice(){
-    let pC = prompt("Rock/Paper/Scissors").toLowerCase();
-    while(!choice.includes(pC)){
-        pC = prompt("Wrong input,try again:");
-    }
-    return pC;
-    
-}
+
 
 
 function round(player,comp){
   
     if(player == comp){
-        console.log("Tie");
-        r--; //when tie occurs, in order to play 5 rounds, the round variable r should be decremented
-        console.log("=============================");
-    }
-    else {
-        console.log("You: " + player + " Computer " + comp);
-        console.log(winLose(player,comp));
-        console.log("=============================");
+        //crude way to make a win/lose message disappear
+        win.classList.toggle('show');
+        win.textContent = 'TIE';
+        setTimeout(() =>{win.classList.toggle('show')},800);
+        setTimeout(()=>{win.textContent = '';},600) 
     }
 
     if(winLose(player,comp) == "player")
     {
         i++;  
+        moi.textContent = i;
+        if(i === 5){
+            rund.classList.toggle('runda');
+            setTimeout(() =>{rund.classList.toggle('runda')},600);
+            rund.textContent = 'You win!';
+            setTimeout(()=>{rund.textContent = '';},600);
+           setTimeout(()=>{zeroing()},400);
+           rund.style.color = "green"
+            
+
     }
-    else {
-       if(comp != player){ 
-        
+    }
+    else if (comp != player)
+    { 
         j++;
+        tv.textContent = j;
+        if(j ===5){
+            rund.classList.toggle('runda');
+            setTimeout(() =>{rund.classList.toggle('runda')},600);
+            rund.textContent = 'You lose!';
+            setTimeout(()=>{rund.textContent = '';},600);
+            setTimeout(()=>{zeroing()},400);
+            rund.style.color = "red"
+              
+        }
     }
-    }
+
+
+    
+
+}
+//zeroing the counter
+function zeroing(){
+    i = j = 0;
+    tv.textContent = j;
+    moi.textContent = i;
 }
 
-function game(){
-    for(r = 0;r<5;r++){
-    round(playerChoice(),compChoice());
-    }
-    
-    alert("Player result:" + i + " " + "Comp. result:" + j);
-    if(i>j){
-        alert("You Win!");
-    }
-    else if(i<j){
-        alert("You lose!");
-    }
+
+
+function game(plei){
+    round(plei,compChoice());
 }
 
 function winLose(a,b){
-
-    if((a == "rock" && b == "scissors") || 
+   if((a == "rock" && b == "scissors") || 
        (a == "scissors" && b == "paper") ||
        (a == "paper" && b == "rock")) 
        {
            return "player";
        }
-
        else {
            return "computer";
        }
-
-
 }
+
+
+const rck = document.querySelector('.rck');
+const pp = document.querySelector('.pp');
+const sci = document.querySelector('.sci');
+//button actions
+rck.addEventListener('click', () => {game("rock");rck.disabled = true;setTimeout(()=>{rck.disabled = false}, 400)});
+pp.addEventListener('click', () => {game("paper");pp.disabled = true;setTimeout(()=>{pp.disabled = false}, 400)});
+sci.addEventListener('click', ()=>{game("scissors");sci.disabled = true;setTimeout(()=>{sci.disabled = false}, 400)});
+
+//showing results
+const moi = document.querySelector('.moi');
+const tv = document.querySelector('.tv');
+const win = document.querySelector('#win');
+const rund = document.querySelector('#rund');
+
+
